@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
+
 
 return new class extends Migration
 {
@@ -13,33 +17,31 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->string('code', 50)->unique('CODE')->comment('ref code');
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->integer('id_role')->index('id_role')->comment('role of the user depend of its profile');
+            $table->timestamp('created_at')->useCurrent()->comment('creation date');
+            $table->timestamp('updated_at')->useCurrent()->comment('update date');
+            $table->tinyInteger('state');
         });
 
         User::insert([
-            DB::table('users')->insert([
+            
                 
                 'code' => (string) Uuid::generate(),
-                'document_type' => 2001,
-                'document_number'=>11111111111,
                 'first_name'=>"SUPER",
                 'last_name'=>"ADMIN",
-                'id_profile'=>1001,
                 'email'=>"superAdmin@gmail.com",
-                'password'=> bcrypt("superadminpx"),
-                'code_auth'=>Str::random(10),
-                'code_password'=>Str::random(10),
-                "id_role"=>1001,
+                'password'=> bcrypt("superadminnch"),
+                'id_role'=>1001,
                 'state'=>1,
-                'nickname'=>'SuperUsuario'
+                
     
             
-        ])
+            ]);
     }
 
     /**
@@ -47,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user');
     }
 };
