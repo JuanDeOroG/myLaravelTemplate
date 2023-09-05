@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,14 @@ Route::post("/login", function( Request $request){
             "expires_in" => auth()->factory()->getTTL()*60
     ]
         ]);
+});
+
+
+Route::prefix('user')->group(function(){
+    Route::post('/register',[UserController::class, 'register']);
+    Route::post('/create', [UserController::class, 'create'])->name('usuarios.create');
+    Route::get('/show', [UserController::class, 'show'])->name('usuarios.show');
+    Route::put('/update', [UserController::class, 'update'])->name('usuarios.update');
+    
+
 });
