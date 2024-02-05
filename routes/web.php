@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/tickets', function () {
+    $tickets = new App\Http\Controllers\Sticker\createStickersUseCase;
+
+    return $tickets->__invoke();
+
+});
